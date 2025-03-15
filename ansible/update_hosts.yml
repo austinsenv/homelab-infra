@@ -1,0 +1,22 @@
+---
+
+- name: Update and Upgrade
+  hosts: all
+  become: true  
+  tasks:
+
+    - name: Update apt packages (Debian/Ubuntu)
+      apt:
+        update_cache: yes
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Upgrade apt packages (Debian/Ubuntu)
+      apt:
+        upgrade: dist
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Update dnf packages (Fedora/RHEL/CentOS)
+      dnf:
+        name: '*'
+        state: latest
+      when: ansible_distribution in ["Fedora", "RHEL", "CentOS"]
