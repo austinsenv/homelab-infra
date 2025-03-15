@@ -20,6 +20,7 @@
       changed_when: false
       failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
       check_mode: false
+      when: ansible_distribution in ["Fedora", "RHEL", "CentOS"]
 
     - name: Reboot the server (Fedora/RHEL/CentOS)
       reboot:
