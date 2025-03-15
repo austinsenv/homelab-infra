@@ -15,3 +15,8 @@ variable "pm_api_token_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "pm_target_node" {
+  description = "Proxmox Target Node"
+  type        = string
+}

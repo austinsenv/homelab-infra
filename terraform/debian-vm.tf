@@ -17,7 +17,7 @@ provider "proxmox" {
 
 resource "proxmox_vm_qemu" "debian-vm" {
   name        = "debian-vm"
-  target_node = "pve-1"
+  target_node = var.pm_target_node
   clone       = "template-vm01"
   full_clone  = true
   cores       = 4
