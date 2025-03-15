@@ -34,16 +34,15 @@
     - name: Reboot if required (Debian/Ubuntu)
       reboot:
       when: reboot_required.stat.exists and ansible_distribution in ["Debian", "Ubuntu"]
-
+    
     - name: Check if reboot is needed (Fedora/RHEL/CentOS)
       command: needs-restarting -r
       register: result
       ignore_errors: yes
+      when: ansible_distribution in ["Fedora", "RHEL", "CentOS"]
 
     - name: Reboot if required (Fedora/RHEL/CentOS)
       command: shutdown -r now "Ansible Updates Triggered"
-      become: true
       async: 30
       poll: 0
-      when: result.rc == 1
-      
+      when: result.rc == 1 and ansible_distribution in ["Fedora", "RHEL", "CentOS"]
