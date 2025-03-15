@@ -13,16 +13,3 @@
     - name: Apply Required Reboots (Debian/Ubuntu)
       reboot:
       when: reboot_required_debian.stat.exists and ansible_distribution in ["Debian", "Ubuntu"]
-
-    - name: Check if reboot is required (Fedora/RHEL/CentOS)
-      shell: "/usr/bin/needs-restarting -r"
-      register: reboot_required_rhel
-      changed_when: false
-      failed_when: reboot_required_rhel.rc != 0 and reboot_required_rhel.rc != 1
-      check_mode: false
-      when: ansible_distribution in ["Fedora", "RHEL", "CentOS"]
-
-    - name: Reboot the server (Fedora/RHEL/CentOS)
-      reboot:
-        reboot_time: 30
-      when: reboot_required_rhel.rc == 1 and ansible_distribution in ["Fedora", "RHEL", "CentOS"]
