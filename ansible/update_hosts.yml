@@ -44,5 +44,4 @@
 
     - name: Reboot if required (Fedora/RHEL/CentOS)
       reboot:
-      when: reboot_required_centos.rc == 1
-      
+      when: reboot_required_centos.rc == 1 and ansible_distribution in ["Fedora", "RHEL", "CentOS"]
