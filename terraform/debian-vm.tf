@@ -25,13 +25,15 @@ resource "proxmox_vm_qemu" "debian-vm" {
   memory      = 8192
 
   disk {
+    slot     = 0
     size     = "32G"
     type     = "scsi"
     storage  = "local-lvm"
-    discard  = "on"
+    discard  = true
   }
 
   network {
+    id        = 0
     model     = "virtio"
     bridge    = "vmbr0"
     firewall  = false
