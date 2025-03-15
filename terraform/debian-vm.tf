@@ -25,9 +25,9 @@ resource "proxmox_vm_qemu" "debian-vm" {
   memory      = 8192
 
   disk {
-    slot     = 0
+    slot     = "scsi0"
     size     = "32G"
-    type     = "scsi"
+    type     = "disk"
     storage  = "local-lvm"
     discard  = true
   }
