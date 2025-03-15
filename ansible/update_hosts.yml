@@ -36,7 +36,7 @@
       when: reboot_required.stat.exists and ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Check if reboot is needed (Fedora/RHEL/CentOS)
-      command: needs-restarting -r
+      command: needs-restarting -r # requires dnf-utils package
       register: reboot_required_centos
       failed_when: reboot_required_centos.rc not in [0, 1]
       changed_when: reboot_required_centos.rc == 1
