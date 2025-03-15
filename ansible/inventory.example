@@ -1,5 +1,5 @@
-# exmample inventory file for .inventory
-# add hosts below
+# example .inventory file
+
 host1.austins.systems
 host2.austins.systems
 host3.austins.systems
