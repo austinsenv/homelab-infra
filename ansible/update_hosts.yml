@@ -36,12 +36,14 @@
       when: reboot_required.stat.exists and ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Check if reboot is needed (Fedora/RHEL/CentOS)
-      command: needs-restarting -r # requires dnf-utils package
-      register: reboot_required_centos
-      failed_when: reboot_required_centos.rc not in [0, 1]
-      changed_when: reboot_required_centos.rc == 1
-      when: ansible_distribution in ["Fedora", "RHEL", "CentOS"]
+      command: needs-restarting -r
+      register: result
+      ignore_errors: yes
 
     - name: Reboot if required (Fedora/RHEL/CentOS)
-      reboot:
-      when: reboot_required_centos.rc == 1 and ansible_distribution in ["Fedora", "RHEL", "CentOS"]
+      command: shutdown -r now "Ansible Updates Triggered"
+      become: true
+      async: 30
+      poll: 0
+      when: result.rc == 1
+      
