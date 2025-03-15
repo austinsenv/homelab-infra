@@ -23,5 +23,5 @@
 
     - name: Reboot the server (Fedora/RHEL/CentOS)
       reboot:
-      reboot_time: 30
+        reboot_time: 30
       when: reboot_required.rc == 1 and ansible_distribution in ["Fedora", "RHEL", "CentOS"]
