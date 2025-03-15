@@ -12,4 +12,6 @@
 
     - name: Apply Required Reboots (Debian/Ubuntu)
       reboot:
-      when: reboot_required_debian.stat.exists and ansible_distribution in ["Debian", "Ubuntu"]
+      when: 
+        - reboot_required_debian.stat.exists
+        - ansible_distribution in ["Debian", "Ubuntu"]
