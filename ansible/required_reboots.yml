@@ -15,7 +15,7 @@
       when: reboot_required.stat.exists and ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Check if reboot is required (Fedora/RHEL/CentOS)
-      shell: "needs-restarting -r"
+      shell: "/usr/bin/needs-restarting -r"
       register: reboot_required
       changed_when: false
       failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
