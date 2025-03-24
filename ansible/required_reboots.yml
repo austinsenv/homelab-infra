@@ -16,7 +16,7 @@
         - ansible_distribution in ["Debian", "Ubuntu"]
         - reboot_required_debian.stat.exists
 
-    - name: install yum-utils if needed
+    - name: Install yum-utils if needed (Fedora/RHEL/CentOS)
       ansible.builtin.dnf:
         name: yum-utils
         state: present
