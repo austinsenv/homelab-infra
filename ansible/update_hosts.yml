@@ -19,4 +19,5 @@
       dnf:
         name: '*'
         state: latest
-      when: ansible_distribution in ["Fedora", "RHEL", "CentOS"]
+      when: ansible_distribution in ["Fedora", "RHEL"]
+
