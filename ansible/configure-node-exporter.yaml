@@ -16,16 +16,9 @@
         name: node-exporter
         state: present
 
-    - name: Ensure prometheus-node-exporter is running and enabled (Debian/Ubuntu)
-      when: ansible_distribution in ["Debian", "Ubuntu"]
-      ansible.bultin.systemd:
+    - name: Ensure prometheus-node-exporter is running and enabled
+      ansible.builtin.systemd_service:
         name: prometheus-node-exporter
-        state: running
+        state: started
         enabled: true
 
-    - name: Ensure prometheus-node-exporter is running and enabled (Debian/Ubuntu)
-      when: ansible_distribution in ["Fedora", "RHEL"]
-      ansible.bultin.systemd:
-        name: node-exporter
-        state: running
-        enabled: true
