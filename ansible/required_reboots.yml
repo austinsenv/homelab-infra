@@ -25,9 +25,10 @@
     - name: Check if reboot is required (Fedora/RHEL)
       when: ansible_distribution in ["Fedora", "RHEL"]
       ansible.builtin.shell:
-        cmd: "needs-restarting -r -s"
+        cmd: "needs-restarting -r"
       register: needs_restarting
       changed_when: needs_restarting.rc == 1
+      failed_when: needs_restarting.rc != 1 and needs_restarting.rc != 0
 
     - name: Apply Required Reboots (Fedora/RHEL)
       when: 
