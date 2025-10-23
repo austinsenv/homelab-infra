@@ -27,4 +27,4 @@
         port: 9100/tcp
         permanent: true
         state: enabled
-
+        immediate: true
