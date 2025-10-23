@@ -24,7 +24,7 @@
 
     - name: Ensure port 9100 is open
       ansible.posix.firewalld:
-        port: 9100
+        port: 9100/tcp
         permanent: true
         state: enabled
-        
+
