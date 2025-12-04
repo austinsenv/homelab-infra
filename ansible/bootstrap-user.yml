@@ -1,4 +1,9 @@
 ---
+# run this playbook with something like this: 
+#
+# source .env
+# ansible-playbook bootstrap-user.yml --limit HOST --user USER --ask-become-pass --ask-pass
+
 - hosts: all
   become: true
   tasks:
