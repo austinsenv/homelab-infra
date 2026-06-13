@@ -1,7 +1,3 @@
-terraform/.*
 ansible/.*
 ansible/inventory
 .*
-terraform/terraform.tfstate
-terraform/terraform.tfstate.backup
-
