@@ -30,7 +30,15 @@
         state: started
         enabled: true
 
-    - name: Ensure port 9100 is open
+    - name: Ensure port 9100 is open (Debian/Ubuntu)
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+      community.general.ufw:
+        rule: allow
+        port: "9100"
+        proto: tcp
+
+    - name: Ensure port 9100 is open (Fedora/RHEL)
+      when: ansible_distribution in ["Fedora", "RHEL"]
       ansible.posix.firewalld:
         port: 9100/tcp
         permanent: true
