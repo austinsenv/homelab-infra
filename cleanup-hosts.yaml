@@ -21,13 +21,6 @@
         autoremove: yes
       when: ansible_distribution in ["Fedora", "RHEL"]
 
-    - name: Clean dnf cache (Fedora/RHEL/CentOS)
-      dnf:
-        name: '*'
-        state: latest
-        autoremove: yes
-      when: ansible_distribution in ["Fedora", "RHEL"]
-
     - name: Clean dnf metadata cache (Fedora/RHEL/CentOS)
       command: dnf clean all
       when: ansible_distribution in ["Fedora", "RHEL"]
