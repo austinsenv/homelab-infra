@@ -1,1 +1,6 @@
-# list hosts below
+[group_name]
+host1.example.com
+host2.example.com
+
+[another_group]
+host3.example.com
