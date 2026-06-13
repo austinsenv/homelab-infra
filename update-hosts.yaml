@@ -6,17 +6,17 @@
   tasks:
 
     - name: Update apt packages (Debian/Ubuntu)
-      apt:
+      ansible.builtin.apt:
         update_cache: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Upgrade apt packages (Debian/Ubuntu)
-      apt:
+      ansible.builtin.apt:
         upgrade: dist
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Update dnf packages (Fedora/RHEL/CentOS)
-      dnf:
+      ansible.builtin.dnf:
         name: '*'
         state: latest
       when: ansible_distribution in ["Fedora", "RHEL"]

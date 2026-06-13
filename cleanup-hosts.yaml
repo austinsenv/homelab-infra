@@ -6,31 +6,31 @@
   tasks:
 
     - name: Remove unused packages (Debian/Ubuntu)
-      apt:
+      ansible.builtin.apt:
         autoremove: yes
         purge: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Clean apt cache (Debian/Ubuntu)
-      apt:
+      ansible.builtin.apt:
         autoclean: yes
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
     - name: Remove unused packages (Fedora/RHEL/CentOS)
-      dnf:
+      ansible.builtin.dnf:
         autoremove: yes
       when: ansible_distribution in ["Fedora", "RHEL"]
 
     - name: Clean dnf metadata cache (Fedora/RHEL/CentOS)
-      command: dnf clean all
+      ansible.builtin.command: dnf clean all
       when: ansible_distribution in ["Fedora", "RHEL"]
 
     - name: Remove old journal logs older than 2 weeks
-      command: journalctl --vacuum-time=2weeks
+      ansible.builtin.command: journalctl --vacuum-time=2weeks
       when: ansible_service_mgr == "systemd"
 
     - name: Remove old crash dumps
-      file:
+      ansible.builtin.file:
         path: /var/crash
         state: absent
       ignore_errors: yes
