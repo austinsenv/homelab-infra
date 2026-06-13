@@ -1,0 +1,43 @@
+---
+
+- name: Clean Up Packages and System Files
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Remove unused packages (Debian/Ubuntu)
+      apt:
+        autoremove: yes
+        purge: yes
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Clean apt cache (Debian/Ubuntu)
+      apt:
+        autoclean: yes
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+    - name: Remove unused packages (Fedora/RHEL/CentOS)
+      dnf:
+        autoremove: yes
+      when: ansible_distribution in ["Fedora", "RHEL"]
+
+    - name: Clean dnf cache (Fedora/RHEL/CentOS)
+      dnf:
+        name: '*'
+        state: latest
+        autoremove: yes
+      when: ansible_distribution in ["Fedora", "RHEL"]
+
+    - name: Clean dnf metadata cache (Fedora/RHEL/CentOS)
+      command: dnf clean all
+      when: ansible_distribution in ["Fedora", "RHEL"]
+
+    - name: Remove old journal logs older than 2 weeks
+      command: journalctl --vacuum-time=2weeks
+      when: ansible_service_mgr == "systemd"
+
+    - name: Remove old crash dumps
+      file:
+        path: /var/crash
+        state: absent
+      ignore_errors: yes
