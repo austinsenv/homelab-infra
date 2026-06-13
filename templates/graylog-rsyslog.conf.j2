@@ -1,0 +1,3 @@
+# Managed by Ansible — do not edit manually
+# Forward all logs to Graylog syslog input
+*.* {{ '@' if graylog_syslog_protocol == 'udp' else '@@' }}{{ graylog_host }}:{{ graylog_syslog_port }};RSYSLOG_SyslogProtocol23Format

@@ -1,0 +1,51 @@
+---
+- name: Configure log forwarding to Graylog
+  hosts: all
+  become: true
+  vars:
+    # Set graylog_host to the IP or hostname of your Graylog server, e.g.:
+    #   ansible-playbook configure-graylog-forwarding.yaml -e graylog_host=192.168.1.50
+    graylog_host: ""
+    graylog_syslog_port: 5140
+    graylog_syslog_protocol: udp  # udp or tcp
+
+  pre_tasks:
+    - name: Verify graylog_host is set
+      ansible.builtin.fail:
+        msg: "graylog_host must be set. Pass it with -e graylog_host=<ip-or-hostname>"
+      when: graylog_host == ""
+
+  handlers:
+    - name: Restart rsyslog
+      ansible.builtin.systemd_service:
+        name: rsyslog
+        state: restarted
+
+  tasks:
+    - name: Ensure rsyslog is installed (Debian/Ubuntu)
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+      ansible.builtin.apt:
+        name: rsyslog
+        state: present
+        update_cache: true
+
+    - name: Ensure rsyslog is installed (Fedora/RHEL)
+      when: ansible_distribution in ["Fedora", "RHEL"]
+      ansible.builtin.dnf:
+        name: rsyslog
+        state: present
+
+    - name: Ensure rsyslog is running and enabled
+      ansible.builtin.systemd_service:
+        name: rsyslog
+        state: started
+        enabled: true
+
+    - name: Deploy rsyslog forwarding config
+      ansible.builtin.template:
+        src: templates/graylog-rsyslog.conf.j2
+        dest: /etc/rsyslog.d/99-graylog.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart rsyslog
