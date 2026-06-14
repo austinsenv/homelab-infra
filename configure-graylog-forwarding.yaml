@@ -41,6 +41,21 @@
         state: started
         enabled: true
 
+    - name: Switch rsyslog from imuxsock to imjournal
+      ansible.builtin.replace:
+        path: /etc/rsyslog.conf
+        regexp: '^(module\(load="imuxsock"\).*)'
+        replace: '#\1'
+      notify: Restart rsyslog
+
+    - name: Enable imjournal in rsyslog
+      ansible.builtin.lineinfile:
+        path: /etc/rsyslog.conf
+        line: 'module(load="imjournal" StateFile="imjournal.state" Ratelimit.Burst="20000" Ratelimit.Interval="5")'
+        regexp: '^#?module\(load="imjournal".*\)'
+        state: present
+      notify: Restart rsyslog
+
     - name: Deploy rsyslog forwarding config
       ansible.builtin.template:
         src: templates/graylog-rsyslog.conf.j2
